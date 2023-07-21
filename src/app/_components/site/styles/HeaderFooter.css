@@ -1,0 +1,105 @@
+.header, .footer {
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(66, 68, 90, 0.45);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(66, 68, 90, 0.45);
+    box-shadow: 0px 0px 10px 0px rgba(66, 68, 90, 0.45);
+
+    --HF-padding: 10px;
+    --HF-height: max(5vh, 40px);
+    --HF-img-height: var(--HF-height);
+
+    box-sizing: content-box;
+    padding: var(--HF-padding);
+    height: var(--HF-height);
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    z-index: 101;
+}
+
+html {
+    --HF-height2: var(--HF-height);
+}
+
+.header img, footer img {
+    width: auto;
+    height: var(--HF-img-height);
+    min-height: 40px;
+}
+
+.footer img {
+    height: calc(var(--HF-img-height));
+    box-sizing: border-box;
+    padding: var(--HF-padding) 0;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: max(10px, 1rem);
+}
+
+.header {
+    position: sticky;
+    top: 0;
+}
+
+.flex.hi {
+    margin-right: 20px;
+    align-items: end;
+    justify-content: center;
+    font-size: calc(var(--HF-height) / 2);
+}
+
+@media screen and (max-width: 550px) {
+    .hi {
+        margin: 0;
+        font-size: calc(var(--HF-height) / 3);
+    }
+}
+
+.close {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@supports (not (aspect-ratio:1)) {
+    .close {
+        margin-right: 30px;
+    }
+}
+
+
+.footerButtons {
+    display: flex;
+    justify-content: center;
+}
+
+.footerButtons button {
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
+    color: var(--color-1);
+}
+
+@media screen and (min-width: 768px) {
+    .footerButtons button {
+        margin: 0 10px;
+        font-size: 1.3em;
+    }
+}
+
+.header img {
+    margin: auto;
+}
+
+.header h2{
+    font-size: 2.15rem;
+}
+
+@media screen and (max-width: 991px){
+    .header h2{
+        font-size: 1.75rem;
+    }
+}

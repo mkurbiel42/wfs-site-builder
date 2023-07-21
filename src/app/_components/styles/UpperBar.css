@@ -1,0 +1,6 @@
+.upper{
+    grid-area: upper;
+    padding: 2.25em;
+    background-color: rgb(20, 20, 23);
+    text-align: center;
+}

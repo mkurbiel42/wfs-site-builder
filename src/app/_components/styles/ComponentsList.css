@@ -1,0 +1,26 @@
+:root{
+    --border-style: 1px solid rgba(255,255,255,0.15);
+}
+
+.components-list{
+    list-style: none;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(32,32,36);
+    grid-area: components;
+    text-align: center;
+}
+
+.components-list > li{
+    border-bottom: var(--border-style);
+    padding: 1.5em 2.25em;
+    user-select: none;
+    cursor: pointer;
+}
+
+.components-list > li:first-child{
+    border-top: var(--border-style)
+}

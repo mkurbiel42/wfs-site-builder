@@ -1,0 +1,49 @@
+.item {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	color: darkgray;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	border-radius: 0.15rem;
+	background-color: white;
+	padding: 1em;
+	min-width: 30ch;
+	min-height: 14ch;
+	gap: 0.75em;
+}
+
+.item > h2 {
+	align-self: flex-start;
+	text-transform: uppercase;
+}
+
+.item > h3 {
+	align-self: flex-start;
+}
+
+.item > button {
+	align-self: flex-end;
+	border-radius: 0.25rem;
+	background-color: hsl(330, 51%, 54%);
+	color: white;
+	padding: 0.5em 1.25em;
+	font-size: 14px;
+	border: none;
+}
+
+.item > button:first-of-type {
+	margin-top: 0.5em;
+}
+
+.item > button:hover {
+	background-color: hsl(330, 56%, 44%);
+}
+
+.item-03 {
+	min-width: 0;
+	min-height: 0;
+	text-align: center;
+	display: block;
+	padding: 2.25em 3em;
+}

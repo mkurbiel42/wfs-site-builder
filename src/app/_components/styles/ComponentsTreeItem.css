@@ -1,0 +1,11 @@
+.components-tree-item{
+    display: block;
+    border-bottom: var(--border-style);
+    padding: 1em;
+}
+
+.components-tree-item-shortform{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

@@ -1,0 +1,22 @@
+.page-info-additional{
+    display: flex;
+    flex-direction: column;
+}
+
+.page-info-positioning{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+hr{
+    width: 100%;
+}
+
+.page-info-changename{
+    display: inline;
+}
+
+.page-info-changename > input{
+    width: 70%;
+}
