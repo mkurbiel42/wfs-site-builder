@@ -6,7 +6,7 @@ import { useEffect, useRef, useState, Fragment } from "react"
 import { JsonToComponent } from "../dev/_util/JsonToComponent"
 
 
-export default function StylesEditor({componentName, props, children, idx, isOpen, setOpen}){
+export default function StylesEditor({componentName, props, componentChildren, idx, isOpen, setOpen}){
     let dialogRef = useRef()
     let inputRef = useRef()
 
@@ -23,7 +23,7 @@ export default function StylesEditor({componentName, props, children, idx, isOpe
         <dialog ref={dialogRef} className="styles" onCancel={(e) => {e.preventDefault()}}>
             <div className="App styles-main-wrapper">
                 <main className="main styles-comp-wrapper">
-                    {JsonToComponent({name: componentName, props: {...props, style}, children}, idx)}
+                    {JsonToComponent({name: componentName, props: {...props, style}, componentChildren}, idx)}
                 </main>
             </div>
            

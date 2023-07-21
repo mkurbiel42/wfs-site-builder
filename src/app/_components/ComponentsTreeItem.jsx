@@ -37,7 +37,7 @@ export default function ComponentsTreeItem({name, type, props, children, idx}){
 
                 {type === "HTML" && <button className="default-button" onClick={() => setStylesOpen((open) => !open)}>...styles</button>}
                 
-                {areStylesOpen && <>Styles open<StylesEditor idx={idx} componentName={name} props={props} children={children} isOpen={areStylesOpen} setOpen={setStylesOpen}/></>}
+                {areStylesOpen && <>Styles open<StylesEditor idx={idx} componentName={name} props={props} componentChildren={children} isOpen={areStylesOpen} setOpen={setStylesOpen}/></>}
 
                 <hr />
 
