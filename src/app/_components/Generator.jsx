@@ -4,12 +4,12 @@ import "./styles/Generator.css"
 import Code from "./Code"
 import Debug from "./Debug"
 import Preview from "./Preview"
-import UsePagesContext from "../dev/_util/UsePagesContext"
 import { useRouter } from "next/navigation"
+import UsePagesContext from "../dev/_util/UsePagesContext"
 
 export default function Generator(props){
     let [view, setView] = useState("preview")
-    let {state} = UsePagesContext()
+    let {state, dispatch} = UsePagesContext()
 
     let router = useRouter();
     
@@ -32,7 +32,7 @@ export default function Generator(props){
             {
                 view === "preview" ?
                     (<>
-                        <button className={"default-button"} onClick={() => {router.push("/dev/preview")}}>
+                        <button className={"default-button"} onClick={() => {router.push(`/dev/preview${state.pages[state.currentPage]?.url || ""}`)}}>
                             Show full preview
                         </button>
                         <div className="preview-wrapper">

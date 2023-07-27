@@ -3,11 +3,10 @@ import { useState, useRef } from "react";
 import "./styles/ComponentsTreeItem.css"
 import UsePagesContext from "../dev/_util/UsePagesContext";
 import ComponentProp from "./ComponentProp";
-import { JsonToComponent } from "../dev/_util/JsonToComponent";
 import StylesEditor from "./StylesEditor";
 
 
-export default function ComponentsTreeItem({name, type, props, children, idx}){
+export default function ComponentsTreeItem({name, displayName, type, props, children, idx, propTypes}){
     let [isExpanded, setExpanded] = useState(false)
     let [areStylesOpen, setStylesOpen] = useState(false)
     let {state, dispatch} = UsePagesContext()
@@ -19,7 +18,7 @@ export default function ComponentsTreeItem({name, type, props, children, idx}){
 
     return <div className="components-tree-item">
         <div className="components-tree-item-shortform">
-            <span className="components-tree-item-name">{idx + 1} - {name}</span>
+            <span className="components-tree-item-name">{idx + 1} - {displayName}</span>
             <button className={"default-button"} onClick={() => {setExpanded(exp => !exp)}}>
                 {isExpanded ? "-" : "+"}
             </button>
@@ -28,12 +27,18 @@ export default function ComponentsTreeItem({name, type, props, children, idx}){
             isExpanded && 
             <div className="components-tree-item-props">
                 <button className={"default-button"} onClick={() => dispatch({type: "REMOVE_COMPONENT", payload: {componentIdx: idx}})}>X</button>
-                {Object.entries(props)?.filter(([name, value]) => name !== "style").map(([name, value], pridx) => {
-                        return <ComponentProp name={name} value={value} componentIdx={idx} key={pridx}/>
+
+                {Object.entries(props)?.filter(([name, value]) => name !== "style" || type !== "HTML").map(([name, value], pridx) => {
+                        if(type === "HTML"){
+                            return <ComponentProp componentType={type} name={name} value={value} type={"text"} componentIdx={idx} key={pridx}/>
+                        }else{
+                            return <ComponentProp componentType={type} name={name} value={value} type={propTypes[name].type} nestedType={propTypes[name].nestedType} componentIdx={idx} key={pridx}/>
+                        }
+                        
                     }
                 )}
                 
-                {type === "HTML" && <ComponentProp name={"content"} value={children} componentIdx={idx} key={`content=${idx}`}/>}
+                {type === "HTML" && <ComponentProp componentType={type} name={"content"} value={children} type={"content"} componentIdx={idx} key={`content=${idx}`}/>}
 
                 {type === "HTML" && <button className="default-button" onClick={() => setStylesOpen((open) => !open)}>...styles</button>}
                 

@@ -3,23 +3,28 @@ import Footer from "@/app/_components/site/Footer"
 
 export default function PageSchema({data, searchParams, params, children}){
     let {pages, layout} = data
+    let {props} = layout
+    let {backgroundColor, color1, color2} = props
+    let defaultStyles = {backgroundColor, color: color1}
     
     return (
-        <div className="App">
+        <div className="App" style={defaultStyles}>
         {layout.props.showHeader && <Header 
-            logoUrl={layout.props.headerLogoUrl} 
-            logoLink={layout.props.headerLink}
-            logoAlt={layout.props.headerLogoAlt}
-            name={searchParams.email}
+            logoUrl={props.headerLogoUrl} 
+            logoLink={props.headerLink}
+            logoAlt={props.headerLogoAlt}
+            name={searchParams?.email || "{Name}"}
+            style={defaultStyles}
         />}
         
         {children}
 
         {layout.props.showFooter && <Footer 
-            logoUrl={layout.props.footerLogoUrl} 
-            logoLink={layout.props.footerLogoLink} 
-            logoAlt={layout.props.footerLogoAlt}
-            links={layout.props.footerLinks}
+            logoUrl={props.footerLogoUrl} 
+            logoLink={props.footerLogoLink} 
+            logoAlt={props.footerLogoAlt}
+            links={props.footerLinks}
+            style={defaultStyles}
         />}
       </div>
     )

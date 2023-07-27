@@ -3,10 +3,10 @@ import "@/app/_components/styles/StyleEditor.css"
 
 import UsePagesContext from "../dev/_util/UsePagesContext"
 import { useEffect, useRef, useState, Fragment } from "react"
-import { JsonToComponent } from "../dev/_util/JsonToComponent"
+import { JsonToComponent } from "../_util/JsonToComponent"
 
 
-export default function StylesEditor({componentName, props, componentChildren, idx, isOpen, setOpen}){
+export default function StylesEditor({componentName, props, componentChildren, idx, setOpen, propName="style"}){
     let dialogRef = useRef()
     let inputRef = useRef()
 
@@ -23,7 +23,7 @@ export default function StylesEditor({componentName, props, componentChildren, i
         <dialog ref={dialogRef} className="styles" onCancel={(e) => {e.preventDefault()}}>
             <div className="App styles-main-wrapper">
                 <main className="main styles-comp-wrapper">
-                    {JsonToComponent({name: componentName, props: {...props, style}, componentChildren}, idx)}
+                    {JsonToComponent({name: componentName, props: {...props, style}, children: componentChildren}, idx)}
                 </main>
             </div>
            
@@ -34,8 +34,8 @@ export default function StylesEditor({componentName, props, componentChildren, i
             
             <div className="styles-list">
                 {
-                    Object.entries(style)?.map(([style, value]) =>
-                        <div key={style}>
+                    Object.entries(style)?.map(([style, value], idx) =>
+                        <div key={`${style}-${idx}`}>
                             <label>{style}: </label>
                             <input type="text" value={value} onChange={(e) => {setStyle((s) => ({...s, [style]: e.target.value}))}}/>
                         </div>
@@ -47,8 +47,9 @@ export default function StylesEditor({componentName, props, componentChildren, i
                 <button className="button close" onClick={() => setOpen(false)}>X</button>
                 <button className="button save" 
                 onClick={() => {
-                    dispatch({type:"CHANGE_PROP", payload: {componentIdx: idx, prop: "style", value: style}})
-                    setOpen(false)}
+                    dispatch({type:"CHANGE_PROP", payload: {componentIdx: idx, prop: propName, value: style}})
+                    setOpen(false)
+                    }
                 }>
                 O</button>
             </div>

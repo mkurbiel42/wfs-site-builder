@@ -1,0 +1,53 @@
+.button{
+    width: fit-content;
+    padding: 0.25em 0.75em;
+    font-weight: bold;
+    font-size: 1.2em;
+    align-self: flex-end;
+    border: none;
+    border-radius: 0.25em;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.button.close{
+    color: white;
+}
+
+.button.close:hover{
+    background-color: rgb(232,17,35);
+}
+
+.button.save{
+    color: white;
+    background-color: cornflowerblue
+}
+
+
+.editor{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    background-color: rgb(48,48,54);
+    color: white;
+    border: 2px solid rgb(0,0,0,0.25);
+    border-radius: 0.75em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 150;
+    padding: 0.5em;
+}
+
+.editor::backdrop{
+    background-color: rgba(0,0,0,0.75);
+}
+
+.editor-buttons{
+    align-self: end;
+    display: flex;
+}

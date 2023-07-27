@@ -6,15 +6,26 @@ const metadata = {}
 
 
 export default async function Page({params, searchParams}){
-   let data = await getPageData()
-   // console.log(JSON.stringify(data, null, 3))
-    
-   metadata.title = data.layout.props.title
+   let {data, error} = await getPageData(params.campaign)
+
+   if(data){
+      console.log(data)
+      metadata.title = data.layout.props.title
+   } 
    
    return (
-      <PageSchema data={data} searchParams={searchParams} params={params}>
-         <PageContent data={{...data, page: 0}}/>
-      </PageSchema>
+      <>
+         {data && 
+            <PageSchema data={data} searchParams={searchParams} params={params}>
+               <PageContent data={{...data, page: 0}}/>
+            </PageSchema>
+         }
+
+         {
+            !data &&
+            <h1 style={{textAlign: "center"}}>No such campaign</h1>
+         }
+      </>
    )
 }
 

@@ -1,8 +1,8 @@
 import "./styles/HeaderFooter.css"
 
-export default function Header({logoUrl, logoLink, logoAlt, name}){
+export default function Header({logoUrl, logoLink, logoAlt, name, style}){
     return (
-        <header className="header">
+        <header className="header" style={style}>
             <a href={logoLink}>
                 <img src={logoUrl} alt={logoAlt}/>
             </a>

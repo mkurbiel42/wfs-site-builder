@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
-import UsePagesContext from "../dev/_util/UsePagesContext"
-import ParseCode from "../dev/_util/ParseCode"
+import UsePagesContext from "@/app/dev/_util/UsePagesContext"
+import ParseCode from "@/app/dev/_util/ParseCode"
 import "./styles/Code.css"
 
 
@@ -13,7 +13,6 @@ export default function Code(props){
 
     useEffect(() => {
         let code = ParseCode(state, state.currentPage)
-        // console.log(code)
 
         setCode(code)
     }, [state])

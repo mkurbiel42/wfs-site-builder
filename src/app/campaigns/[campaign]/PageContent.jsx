@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useReducer } from "react"
-import { JsonToComponent } from "@/app/dev/_util/JsonToComponent"
+import { JsonToComponent } from "@/app/_util/JsonToComponent"
 
 let AppContext = createContext()
 
@@ -38,8 +38,8 @@ export default function PageContent({data}){
                     :
                     <h1>This challenge has not been defined.</h1>
                 }
-                <button onClick={() => {appReducerDispatch({type: "PREVIOUS_CHALLENGE"})}}>previous challenge</button>
-                <button onClick={() => {appReducerDispatch({type: "NEXT_CHALLENGE"})}}>next challenge</button>
+                {/* <button onClick={() => {appReducerDispatch({type: "PREVIOUS_CHALLENGE"})}}>previous challenge</button>
+                <button onClick={() => {appReducerDispatch({type: "NEXT_CHALLENGE"})}}>next challenge</button> */}
             </main>
         </AppContext.Provider>
     )

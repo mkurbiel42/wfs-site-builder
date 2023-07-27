@@ -3,12 +3,11 @@ import "@/app/_styles/Campaign.css"
 import "@/app/_components/site/styles/HeaderFooter.css"
 
 import UsePagesContext from "@/app/dev/_util/UsePagesContext"
-import {JsonToComponent as json2c} from "@/app/dev/_util/JsonToComponent"
-import Footer from "./site/Footer"
-import Header from "./site/Header"
+import {JsonToComponent as json2c} from "@/app/_util/JsonToComponent"
+import PageSchema from "../campaigns/[campaign]/PageSchema"
 
 
-export default function Preview(){
+export default function Preview({params}){
     let {state, dispatch} = UsePagesContext();
     
     let currentPage = state.pages[state.currentPage]
@@ -16,27 +15,13 @@ export default function Preview(){
 
     return (
         <>
-         <div className="App">
-            {layout.props.showHeader ? <Header 
-                logoUrl={layout.props.headerLogoUrl} 
-                logoLink={layout.props.headerLink}
-                logoAlt={layout.props.headerLogoAlt}
-                name={"{Placeholder}"}
-            /> : null}
-
-            <main className={"main"}>
-                {
-                    currentPage.components.map((c, idx) => json2c(c, idx))
-                }
-            </main>
-
-            {layout.props.showFooter ? <Footer 
-                logoUrl={layout.props.footerLogoUrl} 
-                logoLink={layout.props.footerLogoLink} 
-                logoAlt={layout.props.footerLogoAlt}
-                links={layout.props.footerLinks}
-            /> : null}
-        </ div>
+            <PageSchema data={state} params={params}>
+                <main className={"main"}>
+                    {
+                        currentPage.components.map((c, idx) => json2c(c, idx))
+                    }
+                </main>
+            </PageSchema>
         </>
        
     )

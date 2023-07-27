@@ -3,12 +3,15 @@ import UsePagesContext from "../dev/_util/UsePagesContext"
 import { Fragment, useRef, useState } from "react";
 import "./styles/LayoutInfo.css"
 import PageInfo from "./PageInfo";
+import ComponentProp from "./ComponentProp";
+import { LayoutProps } from "../dev/_util/SiteComponents";
 
 export default function LayoutInfo(){
     let {state, dispatch} = UsePagesContext();
     let [arePropsExpanded, setPropsExpanded] = useState(false);
     
     let layout = state.layout
+    let {props, defaultProps} = layout
 
     let footerLinkTextRef = useRef()
     let footerLinkUrlRef = useRef()
@@ -25,7 +28,12 @@ export default function LayoutInfo(){
             {
                 arePropsExpanded &&
                 (<>
-                    {Object.entries(layout.props)?.map(([name, value], idx) => (
+                    {Object.entries(props)?.filter(([name, value]) => name !== "style").map(([name, value], pridx) => {
+                            return <ComponentProp name={name} value={value} type={LayoutProps[name]?.type} nestedType={LayoutProps[name]?.nestedType} key={pridx} isForLayout={true}/>
+                        }  
+                    )}
+            
+                    {/* {Object.entries(layout.props)?.map(([name, value], idx) => (
                         name !== "footerLinks" ?
                             <Fragment key={name + idx}>
                                 <span>{name}</span>
@@ -66,7 +74,7 @@ export default function LayoutInfo(){
                                         </div>
                                 }
                             </Fragment>
-                    ))}
+                    ))} */}
                 </>)
             }
         </div>
