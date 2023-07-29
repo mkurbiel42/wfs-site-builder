@@ -1,0 +1,16 @@
+.button-default{
+    background-color: aliceblue;
+    border: 1px solid rgb(0,0,0,0.2);
+    border-radius: 0.35em;
+    font-size: 1em;
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.floating{
+    position: fixed;
+    top: 3.5em;
+    right: 2.5em;
+    z-index: 1200;
+}

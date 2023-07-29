@@ -1,0 +1,41 @@
+.fit-fit{
+    width: max-content;
+    height: fit-content;
+}
+
+.vertical{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.centered-abs{
+    position: absolute;
+    top: calc(50% - 100px);
+    left: 50%;
+    transform: translate(-50%, -50%);;
+}
+
+.wrapper-main{
+    height: 100%;
+    background-color: rgb(32, 32, 36);
+    color: aliceblue
+}
+
+.wrapper-main a{
+    text-decoration: none;
+    color: lightblue;
+}
+
+.wrapper-main a:hover{
+    color: lightskyblue
+}
+
+.wrapper-main h4{
+    margin: 0.125em 0;
+}
+
+.wrapper-main h2{
+    text-align: center;
+}
