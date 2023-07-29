@@ -1,13 +1,15 @@
 'use client'
 
 import { Fragment, useCallback, useState } from "react"
-import UsePagesContext from "../dev/_util/UsePagesContext"
+import UsePagesContext from "@/app/_util/UsePagesContext"
 import ComponentPropInput from "./ComponentPropInput"
 import GetDefaultPropValue from "../dev/_util/GetDefaultPropValue"
 import StylesEditor from "./StylesEditor"
 import TextEditor from "./TextEditor"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faAdd, faMinus, faRemove, faTrash } from "@fortawesome/free-solid-svg-icons"
 
-export default function ComponentProp({name, value, type, nestedType, componentIdx, componentType, isForLayout=false}){
+export default function ComponentProp({name, value, type, nestedType, componentId, componentIdx, componentType, isForLayout=false}){
     let {state, dispatch} = UsePagesContext()
     let [isStylesEditorOpen, setStylesEditorOpen] = useState(false)
     let [isTextEditorOpen, setTextEditorOpen] = useState(false)
@@ -55,9 +57,9 @@ export default function ComponentProp({name, value, type, nestedType, componentI
 
             dispatch({type: "CHANGE_PROP", payload: {componentIdx, prop: name, value: endValue}})
         }   
-    }, [])
+    }, [value])
 
-    function addToArray(){
+    let addToArray = useCallback(() => {
         let defaultNewValue = null
         if(type === "array"){
             defaultNewValue = ""
@@ -74,100 +76,131 @@ export default function ComponentProp({name, value, type, nestedType, componentI
         }
         
         dispatch({type: "CHANGE_PROP", payload: {componentIdx, prop: name, value: [...value, defaultNewValue]}})
-    }
+    }, [value]) 
 
-    function updateArray(e, elIndex){
+    let updateArray = useCallback((e, elIndex) => {
         let newValue = value.map((v, vIdx) => vIdx !== elIndex ? v : e.target.value)
 
         if(isForLayout){
             dispatch({type: "CHANGE_LAYOUT_PROP", payload: {prop: name, value: newValue}})
+            return
         }
 
         dispatch({type: "CHANGE_PROP", payload: {componentIdx, prop: name, value: newValue}})
-    }
+    }, [value])
 
-    function removeFromArray(elIndex){
+    let removeFromArray = useCallback((elIndex) => {
         let newValue = value.filter((v, vIdx) => vIdx !== elIndex)
 
         if(isForLayout){
             dispatch({type: "CHANGE_LAYOUT_PROP", payload: {prop: name, value: newValue}})
+            return
         }
 
         dispatch({type: "CHANGE_PROP", payload: {componentIdx, prop: name, value: newValue}})
-    }
+    }, [value])
 
-    function updateNestedObject(e, elIndex, propName, nestedVariableType){
+    let updateNestedObject = useCallback((e, elIndex, propName, nestedVariableType) => {
         let newValue = value.map((el, elIdx) => elIdx !== elIndex ? el : {...el, [propName]: updateValueWithType(nestedVariableType, e.target)})
 
         if(isForLayout){
-            if(isForLayout){
-                dispatch({type: "CHANGE_LAYOUT_PROP", payload: {prop: name, value: newValue}})
-            }
+            dispatch({type: "CHANGE_LAYOUT_PROP", payload: {prop: name, value: newValue}})
+            return
         }
 
         dispatch({type: "CHANGE_PROP", payload: {componentIdx, prop: name, value: newValue}})
-    }
+    }, [value])
 
     return (
-        <div className="components-tree-item-property">
-            <span>{name}</span>
-            <br />
+        <>
+            {(type === "text" || type === "number") && 
+                <div className="w-[100%]">
+                    <span>{name}</span>
+                    <ComponentPropInput className={`input-default w-[100%]`} type={"text"} value={value} onChange={(e) => updateInput(e)}/>
+                </div>
+            }
 
-            {(type === "text" || type === "number") && <ComponentPropInput type={"text"} value={value} onChange={(e) => updateInput(e)}/>}
-            {type === "color" && <ComponentPropInput type={"color"} value={value} onChange={(e) => updateInput(e)}/>}
-            {type === "boolean" && <ComponentPropInput type={"checkbox"} value={value} onChange={(e) => updateInput(e)}/>}
+            {type === "color" && 
+                <div className="flex flex-row justify-between items-center w-[100%]">
+                    <span>{name}</span>
+                    <ComponentPropInput className={`input-default`} type={"color"} value={value} onChange={(e) => updateInput(e)}/>
+                </div>  
+            }
+
+            {type === "boolean" && 
+                <div className="flex flex-row justify-between items-center w-[100%]">
+                    <span>{name}</span>
+                    <ComponentPropInput type={"checkbox"} value={value} onChange={(e) => updateInput(e)}/>
+                </div>
+            }
+
             {
                 type === "array" && 
                 <>
-                    {value.map((v, eIdx) => (<Fragment key={eIdx}>
-                        <ComponentPropInput type={"text"} value={v} onChange={(e) => updateArray(e, eIdx)}/>
-                        <button className="default-button" onClick={() => removeFromArray(eIdx)}>-</button>
-                    </Fragment>))}
-
-                    <hr/>
-                    <button className="default-button" onClick={addToArray}>+</button>
+                    {name}
+                    <div className="flex flex-col gap-1 w-[100%]">
+                        {value.map((v, eIdx) => (<div className="flex flex-row items-center justify-between gap-2 w-[100%]" key={eIdx}>
+                            <span className="text-xs">{eIdx}.</span>
+                            <ComponentPropInput className={"input-default w-40"} type={"text"} value={v} onChange={(e) => updateArray(e, eIdx)}/>
+                            <FontAwesomeIcon icon={faMinus} onClick={() => removeFromArray(eIdx)} className="icon-remove-sm"/>
+                        </div>))}
+                    
+                        <FontAwesomeIcon className={"icon text-lg self-start my-2"} icon={faAdd} onClick={addToArray}/>
+                    </div>
+                    <hr className="border-default mt-1"/>
                 </>
             }
 
             {
                 (type === "arrayOfObjects" && nestedType) &&
                 <>
-                    {
-                        value.map((v, eIdx) => (
-                            <div key={eIdx}>
-                                {
-                                    Object.entries(nestedType)?.map(([name, type], propIdx) => 
-                                        <ComponentPropInput placeholder={name} key={propIdx} type={type} value={v[name]} onChange={(e) => updateNestedObject(e, eIdx, name, type)}/>
-                                    )
-                                }
-                                <button onClick={() => removeFromArray(eIdx)}>-</button>
-                            </div>
-                        ))
-                    }
+                    {name}
+                    <div className="flex flex-col gap-1 w-[100%]">
+                        <hr className="mt-2 border-default"/>
+                        {value.map((v, eIdx) => (
+                                <Fragment key={eIdx}>
+                                    {
+                                        Object.entries(nestedType)?.map(([name, type], propIdx) => 
+                                            <ComponentPropInput className={"input-default w-[100%]"} placeholder={name} key={propIdx} type={type} value={v[name]} onChange={(e) => updateNestedObject(e, eIdx, name, type)}/>
+                                        )
+                                    }
+                                    <FontAwesomeIcon icon={faMinus} onClick={() => removeFromArray(eIdx)} className="icon-remove self-end"/>
+                                    <hr className="mb-4 border-default"/>
+                                </Fragment>
+                        ))}
+                    </div>
 
-                    <hr />
-                    <button onClick={() => {addToArray()}}>+</button>
+                    
+                    <FontAwesomeIcon icon={faAdd} onClick={() => {addToArray()}} className="icon text-lg mb-2"/>
                 </>
             }
 
             {
                 type === "style" &&
-                <>  
-                    <button className="default-button" onClick={() => setStylesEditorOpen((open) => !open)}>...styles</button>
-                    {isStylesEditorOpen && <StylesEditor componentName={"div"} props={{style: value}} componentChildren={<h1>Example</h1>} idx={componentIdx} propName={name} isOpen={isStylesEditorOpen} setOpen={setStylesEditorOpen}/>}
-                </>
+                <div className="component-prop-row">  
+                    {name}
+                    <button className="button-default" onClick={() => setStylesEditorOpen((open) => !open)}>...styles</button>
+                    {isStylesEditorOpen && 
+                        <StylesEditor componentId={componentId} componentName={"div"} componentDisplayName={""} props={{style: value}} componentChildren={<h1>Example</h1>} idx={componentIdx} propName={name} isOpen={isStylesEditorOpen} setOpen={setStylesEditorOpen}/>
+                    }
+                </div>
                 
             }
 
             {
                 type === "content" &&
-                <>
-                    <button className="default-button" onClick={() => setTextEditorOpen(open => !open)}>...edit</button>
-                    {isTextEditorOpen && <TextEditor idx={componentIdx} defaultValue={value} setOpen={() => setTextEditorOpen(open => !open)} propName={"children"}/>}
-                </>
+                <div className="component-prop-row">
+                    {name}
+                    <button className="button-default" onClick={() => setTextEditorOpen(open => !open)}>...edit</button>
+                    {isTextEditorOpen && 
+                        <TextEditor idx={componentIdx} defaultValue={value} setOpen={() => setTextEditorOpen(open => !open)} propName={"children"}/>
+                    }
+                </div>
                 
             }
             
-            {!isForLayout && <button className={"default-button"} onClick={() => dispatch({type: "REMOVE_PROP", payload: {componentIdx, prop: name}})}>X</button>}
-        </div>)
+            {(!isForLayout && componentType == "HTML" && type !== "content") &&
+                <FontAwesomeIcon icon={faTrash} className="icon-remove-sm" onClick={() => dispatch({type: "REMOVE_PROP", payload: {componentIdx, prop: name}})}/>
+            }
+        </>)
 }

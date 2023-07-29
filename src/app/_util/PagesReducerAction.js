@@ -1,5 +1,7 @@
 export default function pagesReducerAction(state, action){
+    // console.log(action.payload)
     switch (action.type) {
+        
         case 'SET_STATE':
             {
                 let state = action.payload
@@ -8,8 +10,9 @@ export default function pagesReducerAction(state, action){
             
         case "CHANGE_PAGE_NAME":
             {
-                let {name} = action.payload;
-                let newState = {...state, pages: state.pages.map((page, idx) => idx !== state.currentPage ? page : {...page, name})}
+                let {name, id} = action.payload;
+                if(name.length > 20) return state;
+                let newState = {...state, pages: state.pages.map((page, idx) => page.id !== id ? page : {...page, name})}
                 return newState
             }
 
@@ -22,9 +25,9 @@ export default function pagesReducerAction(state, action){
 
         case "ADD_COMPONENT":
             {
-                let {component} = action.payload
+                let {component, pageId} = action.payload
                 let {propTypes, ...componentSpread} = component
-                let newState = {...state, pages: state.pages.map((page, idx) => idx !== state.currentPage ? page : {...page, components: [...page.components, {...componentSpread, id: page.components.length}]})}
+                let newState = {...state, pages: state.pages.map((page, idx) => idx !== pageId ? page : {...page, components: [...page.components, {...componentSpread, id: page.components.length}]})}
                 return newState;
                 break;
             }
@@ -40,22 +43,31 @@ export default function pagesReducerAction(state, action){
         case "ADD_NEW_PAGE":
             {
                 let {type} = action.payload
-
+                let highestId = [...state.pages].sort((a, b) => b.id - a.id)[0].id
                 let newState = {...state, pages: [...state.pages, {
-                    id: state.pages.length + 1,
+                    id: state.pages.length,
                     layout: {
                         name: "DefaultLayout",
                         props: [
                             {name: "title", value: "some title"}
                         ]
                     }, 
-                    name: `${type} ${state.pages.length}`,
+                    name: `${type[0].toUpperCase() + type.substr(1)} ${highestId + 1}`,
                     type,
                     components: [],
                     }
                 ]}
                 return newState;
                 break;
+            }
+
+        case "REMOVE_PAGE":
+            {
+                let {pageId} = action.payload;
+                let {rest, currentPage} = state
+                let newState = {...state, pages: state.pages.filter(p => p.id !== pageId), currentPage: 0}
+                console.log(newState)
+                return newState
             }
 
         case "MOVE_PAGES":
@@ -130,6 +142,44 @@ export default function pagesReducerAction(state, action){
                     : {...page, components: state.pages[state.currentPage].components.map((c, cidx) => cidx !== componentIdx ? c : {...c, children: value})})}
                 return newState
                 break;
+            }
+
+        case "SWAP_CHALLENGES":
+            {
+                let {id, direction} = action.payload
+                let currentIdx = state.pages.indexOf(state.pages.find(p => p.id == id))
+                let challengesIndexes = []
+
+                state.pages.forEach((p, idx) => {
+                    if(p.type === 'page') return;
+                    challengesIndexes = [...challengesIndexes, idx];
+                })
+
+                let swapIndex = challengesIndexes[challengesIndexes.indexOf(currentIdx) + direction]
+                
+                let newPages = [...state.pages]
+                newPages[currentIdx] = state.pages[swapIndex]
+                newPages[swapIndex] = state.pages[currentIdx]
+
+                let newState = {...state, pages: newPages}
+                return newState
+            }
+
+        case "SWAP_COMPONENTS":
+            {
+                let {idx, pageId, direction} = action.payload
+                let currentIdx = idx
+                let swapIdx = idx + direction
+
+                let newState = {...state, pages: state.pages.map(p => {
+                    if(p.id !== pageId) return p
+                    let newComponents = [...p.components]
+                    newComponents[currentIdx] = p.components[swapIdx]
+                    newComponents[swapIdx] = p.components[currentIdx]
+                    return {...p, components: newComponents}
+                })}
+
+                return newState
             }
 
         default:

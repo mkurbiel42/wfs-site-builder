@@ -1,16 +1,29 @@
 import { createElement as ce } from "react"
-import Item from "@/app/_components/site/Item02"
-import ReactComponent from "@/app/_components/site/ReactComponent"
-import SpinningWheel from "@/app/_components/site/SpinningWheel"
 
-export let componentsClass = {
-    "Item02": Item,
-    "ReactComponent": ReactComponent,
-    "SpinningWheel": SpinningWheel
-}
+import SiteComponents from "../dev/_util/SiteComponents"
 
-export function JsonToComponent ({name, props, children}, idx){
-    let component = componentsClass[name] || name
-    return ce(component, {...props, key: `${name}-${idx}`, dangerouslySetInnerHTML: {__html: children}})
-    // return ce(component, {...props, key: `${idx}`}, children)
+const voidTags = ["hr", "br", "img"]
+
+export function JsonToComponent ({displayName, name, props, children, componentId}, idx){
+    let componentInfo = SiteComponents.find(c => c.componentId == componentId)
+    let component = componentInfo?.import || name
+    let componentType = componentInfo?.import ? componentInfo.type : 'HTML'
+    // console.log(componentInfo)
+
+    let propsObject = {
+        ...props,
+        key: `${name}-${idx}`,
+    }
+
+    if(voidTags.indexOf(name) != -1){
+        return ce(component, {...props, key: `${idx}`})
+    }
+
+    if(componentType === "HTML"){
+        propsObject["dangerouslySetInnerHTML"] = {__html: children}
+        return ce(component, propsObject)
+    }
+
+    
+    return ce(component, {...props, key: `${idx}`}, children)
 }

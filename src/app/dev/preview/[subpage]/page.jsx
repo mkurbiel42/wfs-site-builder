@@ -1,6 +1,6 @@
 'use client'
 import PageSchema from "@/app/campaigns/[campaign]/PageSchema"
-import UsePagesContext from "../../_util/UsePagesContext"
+import UsePagesContext from "@/app/_util/UsePagesContext"
 import { JsonToComponent } from "../../../_util/JsonToComponent"
 import LinkButton from "@/app/_components/LinkButton"
 import '@/app/_styles/Campaign.css'

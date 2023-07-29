@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react"
 import UsePagesContext from "@/app/dev/_util/UsePagesContext"
 import ParseCode from "@/app/dev/_util/ParseCode"
-import "./styles/Code.css"
 
 
 export default function Code(props){

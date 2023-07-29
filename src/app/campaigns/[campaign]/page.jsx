@@ -9,7 +9,6 @@ export default async function Page({params, searchParams}){
    let {data, error} = await getPageData(params.campaign)
 
    if(data){
-      console.log(data)
       metadata.title = data.layout.props.title
    } 
    

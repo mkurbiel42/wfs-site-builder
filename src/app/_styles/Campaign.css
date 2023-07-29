@@ -33,12 +33,12 @@
     --footer-padding: 0.8em;
 }
 
-.flex{
+.App .flex{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.f1{
+.App .f1{
     flex: 1;
     width: 100%;
 }
@@ -53,7 +53,7 @@ root, body,html, .App {
     flex-direction: column;
 }
 
-.main{
+.App .main{
     position: relative;
     display: flex;
     flex-direction: column;

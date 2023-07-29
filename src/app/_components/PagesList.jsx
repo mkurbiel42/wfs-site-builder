@@ -1,22 +1,19 @@
 'use client'
-import UsePagesContext from "../dev/_util/UsePagesContext"
-import "./styles/PagesList.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import UsePagesContext from "@/app/_util/UsePagesContext"
+import { faAdd } from "@fortawesome/free-solid-svg-icons";
 
 export default function PagesList(){
     let {state, dispatch} = UsePagesContext();
     let {pages, currentPage} = state;
 
     return (
-        <>
-            <div className="pages-wrapper">
-                {pages.filter(p => p.type === "challenge").map((p, i) => <button className={"default-button"} key={i} onClick={() => dispatch({type: "MOVE_PAGES", payload: p.id - 1})}>{p.name}</button>)}
-                <button className={"default-button"} onClick={() => dispatch({type: "ADD_NEW_PAGE", payload: {type: "challenge"}})}>+</button>
-            </div>
+        <div className="flex flex-row justify-start items-center content-center p-4 gap-4 border-default border-b">
+            <button className={"button-default"} onClick={() => dispatch({type: "ADD_NEW_PAGE", payload: {type: "page"}})}>
+                New page <FontAwesomeIcon icon={faAdd} className="icon"/>
+            </button>
+            {pages.filter(p => p.type === "page").map((p, i) => <button className={'button-default' + `${state.currentPage === p.id ? " active" : ""}`} key={i} onClick={() => dispatch({type: "MOVE_PAGES", payload: p.id})}>{p.url || p.name}</button>)}
             
-            <div className="pages-wrapper">
-                {pages.filter(p => p.type === "page").map((p, i) => <button className={"default-button"} key={i} onClick={() => dispatch({type: "MOVE_PAGES", payload: p.id - 1})}>{p.name}</button>)}
-                <button className={"default-button"} onClick={() => dispatch({type: "ADD_NEW_PAGE", payload: {type: "page"}})}>+</button>
-            </div>
-        </>
+        </div>     
     )
 }

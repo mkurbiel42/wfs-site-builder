@@ -2,6 +2,7 @@
 
 import { createContext, useReducer } from "react"
 import { JsonToComponent } from "@/app/_util/JsonToComponent"
+import { PagesContext } from "@/app/_util/PagesContext"
 
 let AppContext = createContext()
 
@@ -30,7 +31,7 @@ export default function PageContent({data}){
     let currentPage = appReducerState.pages.filter(p => p.type === "challenge")[appReducerState.page]
 
     return (
-        <AppContext.Provider value={{state: appReducerState, dispatch: appReducerDispatch}}>
+        <PagesContext.Provider value={{state: appReducerState, dispatch: appReducerDispatch}}>
              <main className={"main"}>
                 {
                     currentPage ?
@@ -41,6 +42,6 @@ export default function PageContent({data}){
                 {/* <button onClick={() => {appReducerDispatch({type: "PREVIOUS_CHALLENGE"})}}>previous challenge</button>
                 <button onClick={() => {appReducerDispatch({type: "NEXT_CHALLENGE"})}}>next challenge</button> */}
             </main>
-        </AppContext.Provider>
+        </PagesContext.Provider>
     )
 }

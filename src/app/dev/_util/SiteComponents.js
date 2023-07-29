@@ -1,7 +1,78 @@
+import Item from "@/app/_components/site/Item02"
+import ReactComponent from "@/app/_components/site/ReactComponent"
+import SpinningWheel from "@/app/_components/site/SpinningWheel"
+import Image from "next/image"
+
+export const initNewPage = {
+	"public": false,
+	"layout": {
+			"name": "DefaultLayout",
+			"props": {
+				"backgroundColor": "#ffffff",
+				"color1": "#001B71",
+				"color2": "#B6D2FF",
+				"showHeader": true,
+				"showFooter": true,
+				"title": "Page title",
+				"headerLogoUrl": "https://placehold.co/520x135",
+				"headerLogoAlt": "Your logo alt text",
+				"headerLink": "https://wayfarersolutions.com/",
+				"footerLinks": [
+					{
+						"url": "",
+						"text": "Index"
+					},
+					{
+						"url": "/tnc",
+						"text": "Terms & Conditions"
+					}
+				],
+				"footerLogoUrl": "https://placehold.co/460x180",
+				"footerLogoAlt": "WFS Logo",
+				"footerLogoLink": "https://wayfarersolutions.com/"
+			}
+		},
+	"pages": [
+		{
+			"id": 0,
+			"layout": {
+				"name": "DefaultLayout",
+				"props": [
+					{
+						"name": "title",
+						"value": "some title"
+					}
+				]
+			},
+			"name": "Challenge 0",
+			"type": "challenge",
+			"components": []
+		},
+		{
+			"id": 1,
+			"layout": {
+				"name": "DefaultLayout",
+				"props": [
+					{
+						"name": "title",
+						"value": "some title"
+					}
+				]
+			},
+			"url": "/tnc",
+			"name": "Terms & Conditions",
+			"type": "page",
+			"components": []
+		}
+	]
+}
+
+
 const SiteComponents = [
     {
-        componentId: 1, 
-        name: "Item02", 
+        componentId: 1,
+        name: "Item02",
+        import: Item,
         type: "React", 
         propTypes: {
             title: {
@@ -14,7 +85,8 @@ const SiteComponents = [
     },
     {
         componentId: 2, 
-        name: "ReactComponent", 
+        name: "ReactComponent",
+        import: ReactComponent,
         type: "React",
         propTypes: {
             id: {
@@ -25,7 +97,6 @@ const SiteComponents = [
             },
             list: {
                 "type": "array",
-                // "nestedType": "string"
             },
             color: {
                 "type": "color"
@@ -50,14 +121,29 @@ const SiteComponents = [
         componentId: 3,
         displayName: "Spinning wheel",
         name: "SpinningWheel",
+        import: SpinningWheel,
         type: "React",
         propTypes: {}
     },
     {
         componentId: 4,
-        displayName: 'Text/Image/Media',
-        name: "div",
+        displayName: 'Text',
+        name: "span",
         type: "HTML"
+    },
+    {
+        componentId: 5,
+        displayName: 'Image',
+        name: "img",
+        type: "HTML",
+        propTypes: {
+            src: {
+                type: "text"
+            },
+            alt:{
+                type: "text"
+            }
+        }
     }
 ]
 
