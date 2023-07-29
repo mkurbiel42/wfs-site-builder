@@ -5,6 +5,7 @@ import SiteComponents from "../dev/_util/SiteComponents"
 import GetDefaultPropValue from "../dev/_util/GetDefaultPropValue"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faAdd } from "@fortawesome/free-solid-svg-icons"
+import { allTags } from "../_util/JsonToComponent"
 
 export default function ComponentsList({pageId}){
     let {state, dispatch} = UsePagesContext()
@@ -36,7 +37,7 @@ export default function ComponentsList({pageId}){
                     <input placeholder="HTML tag name" type="text" ref={htmlElementInput} className="py-4 input-default-high w-[100%] mr-1"/>
                     <FontAwesomeIcon icon={faAdd} className="icon text-xl mb-[0.125rem]" onClick={() => 
                         {
-                            if(htmlElementInput.current.value === "") return
+                            if(htmlElementInput.current.value === "" || allTags.indexOf(htmlElementInput.current.value == -1)) return
                             addComponent({name: htmlElementInput.current.value, type: "HTML", children: `some ${htmlElementInput.current.value}`})
                         }}/>
                 </li>
