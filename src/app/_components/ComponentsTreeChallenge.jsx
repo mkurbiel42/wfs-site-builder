@@ -108,7 +108,7 @@ export default function ComponentsTreeChallenge({page}){
                                     />
                                 }
 
-                                {page.id === 0 && <span className="text-xs text-red-600 self-start">Can't delete default page</span>}
+                                {page.id === 0 && <span className="text-xs text-red-600 self-start">{"Can't delete default page"}</span>}
                             </div>
                         }
 
