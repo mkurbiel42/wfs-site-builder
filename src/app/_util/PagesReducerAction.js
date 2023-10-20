@@ -19,7 +19,7 @@ export default function pagesReducerAction(state, action){
         case "CHANGE_PAGE_URL": 
             {
                 let {url} = action.payload
-                let newState = {...state, pages: state.pages.map((page,idx) => idx !== state.currentPage ? page : {...page, url})}
+                let newState = {...state, pages: state.pages.map((page,idx) => page.id !== state.currentPage ? page : {...page, url})}
                 return newState
             }
 
@@ -27,7 +27,7 @@ export default function pagesReducerAction(state, action){
             {
                 let {component, pageId} = action.payload
                 let {propTypes, ...componentSpread} = component
-                let newState = {...state, pages: state.pages.map((page, idx) => idx !== pageId ? page : {...page, components: [...page.components, {...componentSpread, id: page.components.length}]})}
+                let newState = {...state, pages: state.pages.map((page, idx) => page.id !== pageId ? page : {...page, components: [...page.components, {...componentSpread, id: page.components.length, import: null}]})}
                 return newState;
                 break;
             }
@@ -35,7 +35,7 @@ export default function pagesReducerAction(state, action){
         case "REMOVE_COMPONENT":
             {
                 let {componentIdx} = action.payload
-                let newState = {...state, pages: state.pages.map((page, idx) => idx !== state.currentPage ? page : {...page, components: page.components.filter((c, cidx) => cidx !== componentIdx)})}
+                let newState = {...state, pages: state.pages.map((page, idx) => page.id !== state.currentPage ? page : {...page, components: page.components.filter((c, cidx) => cidx !== componentIdx)})}
                 return newState;
                 break;
             }

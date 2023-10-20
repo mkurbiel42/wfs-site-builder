@@ -42,6 +42,7 @@ export default function LayoutInfo(){
 
         <button className="btn-confirm self-end mr-4" onClick={async () => {
                 try{
+                    console.log({layout: state.layout, pages: state.pages})
                     let result = await updateDoc(doc(collection(firestoreDB, "campaigns"), state.edittedCampaign), {layout: state.layout, pages: state.pages})
                     setChangesSavedMessage("Changes saved successfully")
                     setTimeout(() => {setChangesSavedMessage("")}, 5000)
