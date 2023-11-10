@@ -46,7 +46,7 @@ export default function UserCampaignsMenu(){
             ">    
             <div className="flex flex-row justify-between items-center gap-6 flex-wrap">
                 {userCampaigns.map((c, idx) => (
-                    <button className='button-menu-md' key={idx} onClick={() => dispatch({type: "SET_STATE", payload: {edittedCampaign: c.id, isCampaignPublic: c.public, edittedCampaignName: c.name, layout: c.layout, pages: c.pages, currentPage: 0}})}>
+                    <button className='button-menu-md' key={idx} onClick={() => dispatch({type: "SET_STATE", payload: {edittedCampaign: c.id, isCampaignPublic: c.public, edittedCampaignName: c.name, layout: c.layout, pages: c.pages, currentPage: c.pages.find(p => p.type === "challenge").id}})}>
                         {c.name}
                     </button>)
                 )}

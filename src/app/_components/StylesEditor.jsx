@@ -20,7 +20,7 @@ export default function StylesEditor({componentName, componentDisplayName, compo
             <div className={`fixed top-[50%] w-[45%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-[1000] bg-slate-800 p-4 rounded-lg border-default border`}>
                 <div className="App styles-main-wrapper">
                     <main className="main styles-comp-wrapper">
-                        {JsonToComponent({name: componentName, props: {...props, style}, children: componentChildren, displayName: componentDisplayName, componentId}, idx)}
+                        {(JsonToComponent({name: componentName, props: {...props, style}, children: componentChildren, displayName: componentDisplayName, componentId}, idx))}
                     </main>
                 </div>
             

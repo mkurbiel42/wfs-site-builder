@@ -8,6 +8,8 @@ const metadata = {}
 export default async function Page({params, searchParams}){
    let {data, error} = await getPageData(params.campaign)
 
+   
+
    if(data){
       metadata.title = data.layout.props.title
    } 

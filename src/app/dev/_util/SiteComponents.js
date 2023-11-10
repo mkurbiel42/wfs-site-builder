@@ -2,6 +2,8 @@ import Item from "@/app/_components/site/Item02"
 import ReactComponent from "@/app/_components/site/ReactComponent"
 import SpinningWheel from "@/app/_components/site/SpinningWheel"
 import Image from "next/image"
+import ChallengeBackwards from "@/app/_components/site/ChallengeBackwards"
+import ChallengeForward from "@/app/_components/site/ChallengeForward"
 
 export const initNewPage = {
 	"public": false,
@@ -144,7 +146,19 @@ const SiteComponents = [
                 type: "text"
             }
         }
-    }
+    },
+    {
+        componentId: 6,
+        displayName: 'Next challenge',
+        type: 'React',
+        import: ChallengeForward
+    },
+    {
+        componentId: 7,
+        displayName: 'Previous challenge',
+        type: 'React',
+        import: ChallengeBackwards
+    } 
 ]
 
 export const LayoutProps = {

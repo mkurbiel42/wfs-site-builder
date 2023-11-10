@@ -1,5 +1,5 @@
 export default function pagesReducerAction(state, action){
-    // console.log(action.payload)
+    console.log(action, state.currentPage)
     switch (action.type) {
         
         case 'SET_STATE':
@@ -87,11 +87,13 @@ export default function pagesReducerAction(state, action){
 
         case "CHANGE_PROP":
             {
+                console.log(state)
                 let {componentIdx, prop, value} = action.payload
                 // console.log(componentIdx, prop, value)
-                let newState = {...state, pages: state.pages.map((page,idx) => idx != state.currentPage ? page 
-                    : {...page, components: state.pages[state.currentPage].components.map((c, cidx) => cidx !== componentIdx ? c : {...c, props: {...c.props, [prop]: value}})})}
-                // console.log(newState)
+                let newState = {...state, pages: state.pages.map((page,idx) => page.id != state.currentPage ? page 
+                    : {...page, components: page.components.map((c, cidx) => c.id !== componentIdx ? c : {...c, props: {...c.props, [prop]: value}})})}
+                console.log(newState)
+                
                 return newState
                 break;
             }
@@ -101,7 +103,7 @@ export default function pagesReducerAction(state, action){
             {
                 let {componentIdx, prop, value} = action.payload
                 let newState = {...state, pages: state.pages.map((page,idx) => idx != state.currentPage ? page 
-                    : {...page, components: state.pages[state.currentPage].components.map((c, cidx) => cidx !== componentIdx 
+                    : {...page, components: page.components.map((c, cidx) => cidx !== componentIdx 
                         ? 
                         c : {...c, props: {...c.props, [prop]: value}})})}
                 return newState
@@ -114,7 +116,7 @@ export default function pagesReducerAction(state, action){
                 let newState = {}
                 if(!isForLayout){
                     newState = {...state, pages: state.pages.map((page,idx) => idx != state.currentPage ? page 
-                        : {...page, components: state.pages[state.currentPage].components.map((c, cidx) => {
+                        : {...page, components: page.components.map((c, cidx) => {
                             if(cidx !== componentIdx){
                                 return c
                             }else{
@@ -139,7 +141,7 @@ export default function pagesReducerAction(state, action){
             {
                 let {componentIdx, value} = action.payload
                 let newState = {...state, pages: state.pages.map((page,idx) => idx != state.currentPage ? page 
-                    : {...page, components: state.pages[state.currentPage].components.map((c, cidx) => cidx !== componentIdx ? c : {...c, children: value})})}
+                    : {...page, components: page.components.map((c, cidx) => cidx !== componentIdx ? c : {...c, children: value})})}
                 return newState
                 break;
             }

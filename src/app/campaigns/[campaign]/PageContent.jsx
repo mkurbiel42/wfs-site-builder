@@ -4,20 +4,27 @@ import { createContext, useReducer } from "react"
 import { JsonToComponent } from "@/app/_util/JsonToComponent"
 import { PagesContext } from "@/app/_util/PagesContext"
 
-let AppContext = createContext()
-
 function AppReducerAction(state, action){
     switch(action.type){
         case "NEXT_CHALLENGE":
             {
-                let newState = {...state, page: state.page + 1}
-                return newState;
+                let challengesList = state.pages.filter(p => p.type === "challenge");
+                if(state.page != challengesList.length - 1){
+                    let newState = {...state, page: state.page + 1}
+                    return newState;
+                }else{
+                    return state;
+                }
             }
 
         case "PREVIOUS_CHALLENGE":
             {
-                let newState = {...state, page: state.page - 1}
-                return newState;
+                if(state.page != 0){
+                    let newState = {...state, page: state.page - 1}
+                    return newState;
+                }else{
+                    return state;
+                } 
             }
 
         default:

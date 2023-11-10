@@ -12,6 +12,7 @@ export default function ComponentsList({pageId}){
 
     let components = SiteComponents
     let addComponent = (c) => {
+        console.log(c)
         let {propTypes} = c
         let props = {}
 
@@ -37,7 +38,8 @@ export default function ComponentsList({pageId}){
                     <input placeholder="HTML tag name" type="text" ref={htmlElementInput} className="py-4 input-default-high w-[100%] mr-1"/>
                     <FontAwesomeIcon icon={faAdd} className="icon text-xl mb-[0.125rem]" onClick={() => 
                         {
-                            if(htmlElementInput.current.value === "" || allTags.indexOf(htmlElementInput.current.value == -1)) return
+                            console.log(htmlElementInput.current.value, allTags.indexOf(htmlElementInput.current.value))
+                            if(htmlElementInput.current.value === "" || allTags.indexOf(htmlElementInput.current.value) == -1) return
                             addComponent({name: htmlElementInput.current.value, type: "HTML", children: `some ${htmlElementInput.current.value}`})
                         }}/>
                 </li>
