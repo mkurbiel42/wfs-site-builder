@@ -1,5 +1,5 @@
+'use client'
 import "./styles/Item01.css"
-
 export default function Item({title, info}){
     const showAllProps = () => {
         alert(JSON.stringify({title, info}, null, 3))

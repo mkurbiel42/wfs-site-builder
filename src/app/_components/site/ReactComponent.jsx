@@ -1,3 +1,5 @@
+'use client'
+
 export default function ReactComponent({id, name, list, objectsList, boolean, color, style}){
     return(
         <>

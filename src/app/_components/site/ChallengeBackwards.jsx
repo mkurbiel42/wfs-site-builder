@@ -1,3 +1,4 @@
+'use client'
 import UsePagesContext from "@/app/_util/UsePagesContext"
 
 export default function ChallengeBackwards(){
